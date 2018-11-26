@@ -1,0 +1,111 @@
+<!DOCTYPE html> {% extends 'base/base.html' %}
+
+{% block content %}
+
+<html>
+    <head>
+            <style>
+                    .button {
+                        background-color: rgb(135, 212, 224); /* Black */
+                        border: none;
+                        color: black;
+                        padding: 15px 30px;
+                        text-align: center;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 10px;
+                        margin: 4px 2px;
+                        cursor: pointer;
+                    }
+            </style>
+    </head>
+<div class="wrapper animated fadeIn">
+    <br>
+    <div class="row">
+        <div style="width: 50%; margin: 0 auto;">
+            <!-- <div style="width: 40%; margin: 0 auto;"><a href="vatic">
+                    <button class="btn btn-primary">Annotate Video</button></a>
+                <a href="../../manager/batch_show">
+                    <button class="btn btn-primary"> Create Batches </button></a>
+            </div> -->
+        </div>
+
+        <div class="col-lg-12">
+            <br><br>
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1">Candidate List</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="wrapper">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-title">
+                                                <h5>List of all Mail</h5>
+
+                                            </div>
+                                            <div class="ibox-content">
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>#</th>
+                                                                <!-- <th>Batch </th> -->
+                                                                <th>Mail</th>
+                                                                <!-- <th>Email </th> -->
+                                                                <th> </th>
+                                                                <!-- <th>Completed </th> -->
+                                                                <th></th>
+
+                                                                <!-- <th>Date</th> -->
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            {% for i in images %}
+                                                            <tr id="row-batch" data-id="{{i.id}}">
+
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <!-- <td>{{x.batch.name}}</td> -->
+                                                                <td>{{i.image}}</td>
+                                                                <!-- <td>{{x.operator.first_name}} {{x.operator.last_name}}</td> -->
+                                                                <td><a href="../via_image/segment/{{i.id}}">
+                                                                    <button class="button"> Start Annotation </button></a></td>
+                                                                <td><a href="../via_image/review/{{i.id}}">
+                                                                    <button class="button"> Edit Annotation </button></a></td>
+                                                                <!-- <td>{{x.operator.email}}</td> -->
+                                                                
+
+
+                                                                <td>{{x.status}}</td>
+                                                                <!-- <td><a href="#"><i class="fa fa-check text-navy"></i></a></td> -->
+                                                            </tr>
+
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+</div>
+
+{% endblock%}
