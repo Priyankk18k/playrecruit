@@ -25,8 +25,9 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.vw_index, name="index"),
+    # path('',views.vw_index, name="index"),
     # path('logout/', views.vw_log, name="logout"),
-    path('ats_main/', include('ats_main.urls')),
-]
+    path('', include('ats_main.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 

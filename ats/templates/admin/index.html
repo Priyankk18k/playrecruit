@@ -3,109 +3,174 @@
 {% block content %}
 
 <html>
-    <head>
-            <style>
-                    .button {
-                        background-color: rgb(135, 212, 224); /* Black */
-                        border: none;
-                        color: black;
-                        padding: 15px 30px;
-                        text-align: center;
-                        text-decoration: none;
-                        display: inline-block;
-                        font-size: 10px;
-                        margin: 4px 2px;
-                        cursor: pointer;
-                    }
-            </style>
-    </head>
-<div class="wrapper animated fadeIn">
+
+<head>
+    <style>
+        .button {
+            background-color: rgb(135, 212, 224);
+            /* Black */
+            border: none;
+            color: rgb(121, 88, 159);
+            ;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 10px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 16px solid #3498db;
+          width: 120px;
+          height: 120px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+        }
+        
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        </style>
+</head>
+<div class="wrapper animated fadeIn" >
     <br>
     <div class="row">
-        <div style="width: 50%; margin: 0 auto;">
-            <!-- <div style="width: 40%; margin: 0 auto;"><a href="vatic">
-                    <button class="btn btn-primary">Annotate Video</button></a>
-                <a href="../../manager/batch_show">
-                    <button class="btn btn-primary"> Create Batches </button></a>
-            </div> -->
-        </div>
+
 
         <div class="col-lg-12">
-            <br><br>
-            <div class="tabs-container">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1">Candidate List</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane active">
-                        <div class="panel-body">
-                            <div class="wrapper">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="ibox float-e-margins">
-                                            <div class="ibox-title">
-                                                <h5>List of all Mail</h5>
 
-                                            </div>
-                                            <div class="ibox-content">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of all Mail</h5>
 
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-
-                                                                <th>#</th>
-                                                                <!-- <th>Batch </th> -->
-                                                                <th>Mail</th>
-                                                                <!-- <th>Email </th> -->
-                                                                <th> </th>
-                                                                <!-- <th>Completed </th> -->
-                                                                <th></th>
-
-                                                                <!-- <th>Date</th> -->
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                            {% for i in images %}
-                                                            <tr id="row-batch" data-id="{{i.id}}">
-
-                                                                <td>{{ forloop.counter }}</td>
-                                                                <!-- <td>{{x.batch.name}}</td> -->
-                                                                <td>{{i.image}}</td>
-                                                                <!-- <td>{{x.operator.first_name}} {{x.operator.last_name}}</td> -->
-                                                                <td><a href="../via_image/segment/{{i.id}}">
-                                                                    <button class="button"> Start Annotation </button></a></td>
-                                                                <td><a href="../via_image/review/{{i.id}}">
-                                                                    <button class="button"> Edit Annotation </button></a></td>
-                                                                <!-- <td>{{x.operator.email}}</td> -->
-                                                                
-
-
-                                                                <td>{{x.status}}</td>
-                                                                <!-- <td><a href="#"><i class="fa fa-check text-navy"></i></a></td> -->
-                                                            </tr>
-
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                <div class="ibox-content">
 
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <!-- <th>Projects</th> -->
+                                    <th>E-mail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in data%}
+                                <tr class="link" style="cursor: pointer;">
+                                <td>{{forloop.counter}}</td>
+                                <td id="name" data-id="{{i.0}}" data-resume="{{i.1}}" data-mail="{{i.2}}">{{i.0}}</td>
+                                <td >{{i.2}}</td>
+                                <!-- <td></td> -->
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
-            <br><br>
-
         </div>
     </div>
 </div>
+<center>
 
-{% endblock%}
+<div class="loader" id="loader" style="margin-top: -200px;z-index: 100;display: none;"></div>
+</center>
+ <!-- second form for user -->
+ <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="post-form1"> {% csrf_token %}
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <h4 class="modal-title">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-user" style="font-size:28px;"></i>&nbsp;&nbsp;Edit
+                        User</h4>
+                    <button type="button" class="close" data-dismiss="modal" >
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                       
+                        <label>Contact Number</label>
+                        <input type="number" id="phone" placeholder="Enter Email"
+                            class="form-control" value={{pos.email}}>
+                    </div>
+                    <button id="mail">Send Confirmation Mail</button><button id="open"> Show Resume</button>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('#open').on('click',function(){
+        var win = window.open($('#open').val());
+        if (win) {
+            //Browser has allowed it to be opened
+            win.focus();
+        } else {
+            //Browser has blocked it
+            alert('Please allow popups for this website');
+        }
+    });
+    $('#mail').on('click',function(){
+        console.log("rrrr");
+        $.post("mail/", {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                mail:$('#mail').val(),
+                
+            },
+                function (response) {
+                  
+                });
+        });
+ $(document).on("click", ".link", function () {
+    document.getElementById("loader").style.display = "block";
+    console.log("pppp");
+    console.log("#######",$(this).children('#name').data('id'));
+    console.log("#######",$(this).children('#name').data('resume'));
+
+
+            $.post("candidate/", {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                name:$(this).children('#name').data('id'),
+                link:$(this).children('#name').data('resume'),
+                mail:$(this).children('#name').data('mail'),
+            },
+                function (response) {
+                    document.getElementById("loader").style.display = "none";
+                    console.log("#######",response);
+                    // $('.form-group').html('<input val='+response.hello.phone+'>')
+                    $('#phone').val(response.data.phone);
+                    $('#mail').val(response.data.mail);
+                    $('#open').val(response.data.open);
+                    $('.form-group').append('<label>Skills</label><textarea  class="form-control" style="min-height: 150px;">'+response.data.skills+'</textarea>');
+                    $('.form-group').append('<label>Projects</label><textarea  class="form-control" style="min-height: 150px;">'+response.data.project+'</textarea>');
+                    $("#myModal1").modal("toggle");
+
+                });
+ });
+</script>
+{% endblock %}
